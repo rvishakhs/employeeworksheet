@@ -1,0 +1,100 @@
+@using ServiceContracts.DTO
+@{
+
+    ViewBag.Tittle = "Person - Create";
+} 
+
+<a href="~/persons/index" class="">Back to Home</a>
+<h2>Create Person</h2>
+
+ 
+<div class="w-50">
+    <form action="~/persons/create" method="post">
+        @*Person Name*@
+        <div class="flex">
+            <div class="w-25">
+                <label class="form-label" for="PersonName">Person Name</label>
+            </div>
+            <div>
+                <input type="text" id="PersonName" name="PersonName" class="form-input"/>
+            </div>
+        </div>
+        @*Email*@
+        <div class="flex">
+            <div class="w-25">
+                <label class="form-label" for="Email">Email</label>
+            </div>
+            <div>
+                <input type="email" id="Email" name="Email" class="form-input"/>
+            </div>
+        </div>
+        @*Date of Birth*@
+        <div class="flex">
+            <div class="w-25">
+                <label class="form-label" for="DateOfBirth">Date of Birth</label>
+            </div>
+            <div>
+                <input type="date" id="DateOfBirth" name="DateOfBirth" class="form-input"/>
+            </div>
+        </div>
+        @*Gender*@
+        <div class="flex">
+            <div class="w-25">
+                <label class="form-label" >Gender</label>
+            </div>
+            <div>
+                <input type="radio" id="Male" name="Gender" value="Male" class="form-input"/>
+                <label for="Male" >Male</label>
+                <input type="radio" id="Female" name="Gender" value="Female" class="form-input"/>
+                <label for="Female" >Female</label>
+                <input type="radio" id="Other" name="Gender" value="Others" class="form-input"/>
+                <label for="Others" >Others</label>
+            </div>
+        </div>
+        @* Country *@
+        <div class="flex">
+            <div class="w-25">
+                <label class="form-label" for="Country">Country</label>
+            </div>
+            <div>
+                <select class="form-input" name="CountryId" id="CountryId">
+                    <option value="">Please select Country</option>
+                    @foreach (CountryResponse country in ViewBag.countries)
+                    {
+                        <option value="@country.CountryId">@country.CountryName</option>
+                    }
+                </select>
+            </div>
+        </div>
+        @*Address*@
+        <div class="flex">
+            <div class="w-25">
+                <label class="form-label" for="Address">Address</label>
+            </div>
+            <div>
+                <textarea id="Address" name="Address" class="form-input"></textarea>
+            </div>
+        </div>
+        @*Receive News Letter*@
+        <div class="flex">
+            <div class="w-25">
+            </div>
+            <div>
+                <input type="checkbox" id="ReceiveNewsLetter" value="true" name="ReceiveNewsLetter" class="form-input"/>
+                <label for="ReceiveNewsLetter" >Receive News Letters</label>
+            </div>
+        </div>
+        <button>Submit</button>
+        @if (ViewBag.Errors != null)
+        {
+            <div class="text-red margin-left">
+                <ul>
+                    @foreach (string error in ViewBag.Errors)
+                    {
+                        <li class="margin-left"> @error</li>
+                    }
+                </ul> 
+            </div>
+        }
+    </form>
+</div>

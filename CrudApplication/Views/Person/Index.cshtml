@@ -1,0 +1,87 @@
+@using ServiceContracts.DTO
+@using ServiceContracts.Enums
+@model IEnumerable<ServiceContracts.DTO.PersonResponse>
+
+@{
+
+    ViewBag.Tittle = "Person";
+}
+<form action="~/persons/index" method="get">
+    <h1>Persons</h1>
+    <a href="~/persons/create">Create Person</a>
+<div class="box flex">
+    <div class="flex-1">
+        <select class="form-input" name="searchBy">
+            @foreach (var field in ViewBag.Search)
+            {
+                if (field.Key == ViewBag.CurrentSort)
+                {
+                    <option value="@field.Key" selected="selected">@field.Value</option>
+                }
+                else
+                {
+                    <option value="@field.Key">@field.Value</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="flex-1">
+        <input type="search" id="Search" value="@ViewBag.CurrentSearch" class="form-input" placeholder="Search" name="searchString"/>
+    </div>
+    <div class="flex-1">
+        <button class="button">Search</button> 
+        <a href="~/persons/index" class="">Clear all</a>
+    </div>
+
+</div>
+<table class="table w-100 mt">
+    <thead>
+    <tr>
+        @if (ViewBag.CurrentSortby == nameof(PersonResponse.PersonName) && ViewBag.CurrentSortOrder == SortOrderOptions.Asc.ToString())
+        {
+            <th>
+                <a href="~/persons/index?searchBy=@ViewBag.CurrentSort&searchString=@ViewBag.CurrentSearch&sortby=@nameof(PersonResponse.PersonName)&sortOrder=@nameof(SortOrderOptions.Desc)">Person Name</a>
+            <i class="fa-solid fa-sort-up"></i>
+            </th>   
+        } 
+        else if (ViewBag.CurrentSortby == nameof(PersonResponse.PersonName) && ViewBag.CurrentSortOrder == SortOrderOptions.Desc.ToString())
+        {
+            <th>
+                <a href="~/persons/index?searchBy=@ViewBag.CurrentSort&searchString=@ViewBag.CurrentSearch&sortby=@nameof(PersonResponse.PersonName)&sortOrder=@nameof(SortOrderOptions.Asc)">Person Name</a>
+            <i class="fa-solid fa-sort-down"></i>
+            </th> 
+        } 
+        else
+        {   
+            <th>
+                <a href="~/persons/index?searchBy=@ViewBag.CurrentSort&searchString=@ViewBag.CurrentSearch&sortby=@nameof(PersonResponse.PersonName)&sortOrder=@nameof(SortOrderOptions.Asc)">Person Name</a>
+            <i class="fa-solid fa-sort-down"></i>
+            </th> 
+        }
+        <th>Email</th>
+        <th>Date of Birth</th>
+        <th>Country</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Address</th>
+        <th>Receive News Letter</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (PersonResponse person in Model)
+    {
+        <tr>
+            <td>@person.PersonName</td>
+            <td>@person.Email</td>
+            <td>@person.DateOfBirth?.ToString("MM/dd/yyyy")</td>
+            <td>@person.CountryName</td>
+            <td>@person.Age</td>
+            <td>@person.Gender</td>
+            <td>@person.Address</td>
+            <td>@person.ReceiveNewsLetter</td>
+            <td><a href="~/persons/edit/@person.PersonId" >Edit</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
+</form>
